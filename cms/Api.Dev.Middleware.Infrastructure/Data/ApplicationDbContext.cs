@@ -20,5 +20,6 @@ namespace Api.Dev.Middleware.Infrastructure.Data
 
         public DbSet<Clinic> Clinics {get;set;}
         public DbSet<Staff> Staff { get; set; }
+        public DbSet<Patient> Patients { get; set; }
     }
 }

@@ -27,6 +27,7 @@ namespace Api.Dev.Middleware.Domain.Entities
 
       
         public ICollection<Staff> Staff { get; set; }
-        
+        public ICollection<Patient> Patients { get; set; }
+
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Api.Dev.Middleware.Domain.Entities;
 using Api.Dev.Middleware.Domain.Interfaces;
 using Api.Dev.Middleware.Infrastructure.Data;
-using Api.Dev.Middleware.Infrastructure.Migrations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;

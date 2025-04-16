@@ -1,5 +1,6 @@
 ﻿using Api.Dev.Middleware.Application.Dtos;
 using Api.Dev.Middleware.Application.Interfaces;
+using HotChocolate.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -11,6 +12,7 @@ namespace Api.Dev.Middleware.Ui.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
@@ -23,10 +25,12 @@ namespace Api.Dev.Middleware.Ui.Controllers
         }
 
 
-
+       
         [HttpPost("Register")]
+     
         public  async Task<ActionResult<string>> CreateUserAsync([FromBody] RegisterUserDto register)
         {
+
             var userCreated = await _authService.RegisterAsync(register);
 
 

@@ -61,16 +61,14 @@ namespace Api.Dev.Middleware.Application.Services
             var allClinicsDto = allClinics.Select(c => new ClinicDto
             {
                 ClinicID = c.ClinicID,
-                ClinicName=c.ClinicName,
-                Address=c.Address,
-                ContactNumber=c.ContactNumber,
-                Email=c.Email,
-                Website=c.Website
+                ClinicName = c.ClinicName,
+                Address = c.Address,
+                ContactNumber = c.ContactNumber,
+                Email = c.Email,
+                Website = c.Website,                
             });
 
-
             return allClinicsDto;
-
           
         }
 

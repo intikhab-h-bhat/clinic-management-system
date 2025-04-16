@@ -1,14 +1,7 @@
-﻿using Api.Dev.Middleware.Domain.Interfaces;
-using Api.Dev.Middleware.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Api.Dev.Middleware.Domain.Entities;
+using Api.Dev.Middleware.Domain.Interfaces;
 using Api.Dev.Middleware.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Api.Dev.Middleware.Application.Dtos.StaffDto;
-using Api.Dev.Middleware.Application.Dtos.ClinicDto;
 
 namespace Api.Dev.Middleware.Infrastructure.Repositories.ClinicRepos
 
@@ -46,6 +39,7 @@ namespace Api.Dev.Middleware.Infrastructure.Repositories.ClinicRepos
         public async Task<IEnumerable<Clinic>> GeatAllClinicAsync()
         {
             var allClinics = await _context.Clinics.ToListAsync();
+            //var allClinics = await _context.Clinics.Include(c => c.Staff).ToListAsync();
 
             return allClinics;
         }
@@ -71,8 +65,7 @@ namespace Api.Dev.Middleware.Infrastructure.Repositories.ClinicRepos
             return getClinicByName;
 
         }
-
-       
+              
 
         public async Task<Clinic> UpdateClinicAsync(int id, Clinic clinic)
         {
