@@ -20,7 +20,6 @@ namespace Api.Dev.Middleware.Ui.GraphQL.Mutations
             return await clinicService.UpdateClinicAsync(id,clinicInput);
         }
 
-
         [GraphQLName("deleteClinic")]
         public async Task<bool> DeleteClinicAsync(int id , [Service] IClinicService clinicService)
         {

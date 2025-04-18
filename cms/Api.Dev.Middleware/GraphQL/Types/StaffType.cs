@@ -9,6 +9,8 @@ namespace Api.Dev.Middleware.Ui.GraphQL.Types
             descriptor.Field(s => s.StaffID);
             descriptor.Field(s => s.StaffName);
             descriptor.Field(s => s.Email);
+            descriptor.Field(s => s.ContactNumber);
+            descriptor.Field(s => s.DateOfJoining);
             descriptor.Field(s => s.Clinic).Type<ListType<ClinicType>>().Description("List of staff members in the clinic");
         }
     }

@@ -2,6 +2,7 @@
 using Api.Dev.Middleware.Domain.Interfaces;
 using Api.Dev.Middleware.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Api.Dev.Middleware.Infrastructure.Repositories.ClinicRepos
 
@@ -9,9 +10,13 @@ namespace Api.Dev.Middleware.Infrastructure.Repositories.ClinicRepos
     public class ClinicRepository : IClinicRepository
     {
         private readonly ApplicationDbContext _context;
-        public ClinicRepository(ApplicationDbContext context)
+        //private readonly IDbContextFactory<ApplicationDbContext> _contextFactory;
+        public ClinicRepository(ApplicationDbContext context
+            //,IDbContextFactory<ApplicationDbContext> contextFactory
+            )
         {
             _context = context;
+            //_contextFactory = contextFactory;
         }
 
         public async  Task<Clinic> AddClinicAsync(Clinic clinic)
@@ -39,7 +44,8 @@ namespace Api.Dev.Middleware.Infrastructure.Repositories.ClinicRepos
         public async Task<IEnumerable<Clinic>> GeatAllClinicAsync()
         {
             var allClinics = await _context.Clinics.ToListAsync();
-            //var allClinics = await _context.Clinics.Include(c => c.Staff).ToListAsync();
+            //using var context = _contextFactory.CreateDbContext();
+            //return await context.Clinics.ToListAsync();
 
             return allClinics;
         }

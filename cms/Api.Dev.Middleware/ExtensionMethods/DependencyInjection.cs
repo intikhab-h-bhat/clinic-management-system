@@ -24,7 +24,7 @@ namespace Api.Dev.Middleware.Ui.ExtensionMethods
     .AddType<StaffQueries>()
    .AddMutationType(d => d.Name("Mutation"))
     .AddType<ClinicMutations>(); // Add this line
-            //.AddAuthorization();
+                                 //.AddAuthorization();
 
             return services;
 

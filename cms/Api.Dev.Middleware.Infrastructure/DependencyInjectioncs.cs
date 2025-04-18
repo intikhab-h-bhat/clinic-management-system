@@ -17,6 +17,7 @@ namespace Api.Dev.Middleware.Infrastructure
 
         public static IServiceCollection AddInfrastructureDi(this IServiceCollection services)
         {
+            services.AddTransient<IConcurentRepository, ConcurentRepository>();
             services.AddTransient<IPatientRepository, PatientRepository>();
             services.AddTransient<IAuthRepository, AuthRepository>();
             services.AddTransient<IClinicRepository, ClinicRepository>();

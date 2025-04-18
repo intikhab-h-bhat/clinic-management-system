@@ -2,6 +2,7 @@
 using Api.Dev.Middleware.Domain.Interfaces;
 using Api.Dev.Middleware.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,13 @@ namespace Api.Dev.Middleware.Infrastructure.Repositories
     public class StaffReppository : IStaffRepository
     {
         private readonly ApplicationDbContext _context;
-        public StaffReppository(ApplicationDbContext context)
+        //private readonly IDbContextFactory<ApplicationDbContext> _contextFactory;
+        public StaffReppository(ApplicationDbContext context
+            //,IDbContextFactory<ApplicationDbContext> contextFactory
+            )
         {
             _context = context;
+            //_contextFactory = contextFactory;
         }
 
 
@@ -49,7 +54,9 @@ namespace Api.Dev.Middleware.Infrastructure.Repositories
 
         public async Task<IEnumerable<Staff>> GetAllStaffAsync()
         {
-            //var allStaff = await _context.Staff.ToListAsync();
+            //using var context = _contextFactory.CreateDbContext();
+            //return await context.Staff.Include(s => s.Clinic).ToListAsync();
+
             var allStaff = await _context.Staff
         .Include(s => s.Clinic)
         .ToListAsync();

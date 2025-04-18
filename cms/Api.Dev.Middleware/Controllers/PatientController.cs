@@ -2,6 +2,7 @@
 using Api.Dev.Middleware.Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Dev.Middleware.Ui.Controllers
 {
@@ -10,10 +11,33 @@ namespace Api.Dev.Middleware.Ui.Controllers
     public class PatientController : ControllerBase
     {
         private readonly IPatientService _patientService;
+        private readonly IClinicService _clinicService;
+        private readonly IStaffService _staffService;
+
         public PatientController(IPatientService patientService)
         {
             _patientService = patientService;
+            
         }
+
+
+
+        [HttpPost]
+        public async Task<ActionResult<PatientDto>> AddPatientAsync([FromBody] PatientDto patient)
+        {
+            if (patient == null)
+                return BadRequest();
+
+            var addPatient = await _patientService.AddPatientAsync(patient);
+            if (addPatient == null)
+                return null;
+
+
+
+            return Ok(addPatient);
+        }
+
+
 
 
         [HttpGet]
@@ -26,8 +50,6 @@ namespace Api.Dev.Middleware.Ui.Controllers
 
             return Ok(patients);
         }
-
-
-
+         
     }
 }

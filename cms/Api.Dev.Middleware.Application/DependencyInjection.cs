@@ -16,6 +16,7 @@ namespace Api.Dev.Middleware.Application
 
         public static IServiceCollection AddApplicationDi(this IServiceCollection services)
         {
+            services.AddTransient<IConcurentService, ConcurentService>();
             services.AddTransient<IPatientService, PatientService>();
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IClinicService, ClinicService>();

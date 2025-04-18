@@ -2,6 +2,7 @@
 using Api.Dev.Middleware.Domain.Interfaces;
 using Api.Dev.Middleware.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,13 @@ namespace Api.Dev.Middleware.Infrastructure.Repositories
     public class PatientRepository : IPatientRepository
     {
         private readonly ApplicationDbContext _context;
+        //private readonly IDbContextFactory<ApplicationDbContext> _contextFactory;
 
-        public PatientRepository(ApplicationDbContext context)
+        public PatientRepository(//IDbContextFactory<ApplicationDbContext> contextFactory,
+            ApplicationDbContext context)
         {
-            _context = context;   
+            _context = context;
+           // _contextFactory = contextFactory;
         }
 
 
@@ -41,6 +45,8 @@ namespace Api.Dev.Middleware.Infrastructure.Repositories
 
         public async Task<IEnumerable<Patient>> GetAllPatientsAsync()
         {
+            //using var context = _contextFactory.CreateDbContext();
+            //return await context.Patients.Include(p => p.Clinic).ToListAsync();
             var allPatients = await _context.Patients.Include(p => p.Clinic)
                 .ToListAsync();
 
