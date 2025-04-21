@@ -16,15 +16,15 @@ namespace Api.Dev.Middleware.Ui.ExtensionMethods
 
             services
     .AddGraphQLServer()
-    //.AddQueryType<Query>()
-    //.AddType<ClinicType>()
-    //.AddType<StaffType>()   
+    .AddAuthorization()   
     .AddQueryType(d => d.Name("Query"))
     .AddType<ClinicQueries>()// Register the class that extends the query
     .AddType<StaffQueries>()
+    .AddType<AuthQueries>()
    .AddMutationType(d => d.Name("Mutation"))
-    .AddType<ClinicMutations>(); // Add this line
-                                 //.AddAuthorization();
+    .AddType<ClinicMutations>()
+      .AddType<StaffMutations>();// Add this line
+                                  //.AddAuthorization();
 
             return services;
 

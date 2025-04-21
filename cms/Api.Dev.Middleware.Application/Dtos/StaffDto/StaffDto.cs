@@ -9,7 +9,7 @@ namespace Api.Dev.Middleware.Application.Dtos.StaffDto
 {
     public class StaffDto
     {
-        public int StaffID { get; set; }
+        public int? StaffID { get; set; }
         public int ClinicID { get; set; }
           public string StaffName { get; set; }
           public string ContactNumber { get; set; }

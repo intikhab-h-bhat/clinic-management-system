@@ -17,7 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
-option.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")), ServiceLifetime.Transient);
+option.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
 
 //builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
 //    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));

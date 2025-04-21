@@ -1,5 +1,6 @@
 ﻿using Api.Dev.Middleware.Application.Dtos.ClinicDto;
 using Api.Dev.Middleware.Application.Interfaces;
+using HotChocolate.Authorization;
 
 namespace Api.Dev.Middleware.Ui.GraphQL.Queries
 {
@@ -9,6 +10,7 @@ namespace Api.Dev.Middleware.Ui.GraphQL.Queries
     {
 
         [GraphQLName("clinics")]
+        [Authorize]
         public async Task<IEnumerable<ClinicDto>> GetClinicsAsync([Service] IClinicService clinicService)
         {
             return await clinicService.GetAllClinicsAsync();

@@ -2,21 +2,18 @@
 using Api.Dev.Middleware.Application.Interfaces;
 using Api.Dev.Middleware.Domain.Entities;
 using Api.Dev.Middleware.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Api.Dev.Middleware.Application.Services
 {
     public class StaffService : IStaffService
     {
-        private readonly IStaffRepository _staffRepository;
-        public StaffService(IStaffRepository staffRepository)
+         private readonly IStaffRepository _staffRepositoryAll;
+        private readonly IRepository<Staff> _staffRepository;
+        public StaffService(IRepository<Staff> staffRepository, IStaffRepository staffRepositoryAll)
         {
 
             _staffRepository = staffRepository;
+            _staffRepositoryAll = staffRepositoryAll;
 
         }
 
@@ -37,7 +34,8 @@ namespace Api.Dev.Middleware.Application.Services
             };
 
 
-             await _staffRepository.AddStaffAsync(addStaff);
+            //await _staffRepository.AddStaffAsync(addStaff);
+            await _staffRepository.AddAsync(addStaff);
 
 
             return staffDto;
@@ -47,16 +45,22 @@ namespace Api.Dev.Middleware.Application.Services
 
         public async Task<bool> DeleteStaffAsync(int id)
         {
-            var deleteStaff = await _staffRepository.DeleteStaffAsync(id);
+            //var deleteStaff = await _staffRepository.DeleteStaffAsync(id);
+            var existingStaff = await _staffRepository.GetByIdAsync(id);
+            if (existingStaff == null)
+                return false;
 
-            if (!deleteStaff)
+            var deleteStaff = await _staffRepository.DeleteAsync(existingStaff);
+
+            if (deleteStaff==0)
                 return false;
             return true;
         }
 
         public async Task<IEnumerable<GetStaffDto>> GetAllStaffAsync()
         {
-            var allStaff = await _staffRepository.GetAllStaffAsync();
+            var allStaff = await _staffRepositoryAll.GetAllStaffAsync();
+            //var allStaff = await _staffRepository.GeatAllAsync();
 
             var allStaffDto = allStaff.Select(s => new GetStaffDto
             {
@@ -74,7 +78,8 @@ namespace Api.Dev.Middleware.Application.Services
 
         public async Task<StaffDto> GetStaffByIdAsync(int id)
         {
-            var getStaff = await _staffRepository.GetStaffByIdAsync(id);
+            //var getStaff = await _staffRepository.GetStaffByIdAsync(id);
+            var getStaff = await _staffRepository.GetByIdAsync(id);
 
             if (getStaff == null)
                 return null;
@@ -93,7 +98,8 @@ namespace Api.Dev.Middleware.Application.Services
 
         public async Task<StaffDto> GetStaffByNameAsync(string staffName)
         {
-            var getStaffByName = await _staffRepository.GetStaffByNameAsync(staffName);
+            //var getStaffByName = await _staffRepository.GetStaffByNameAsync(staffName);
+            var getStaffByName = await _staffRepository.GetByNameAsync(c=>c.StaffName.Contains(staffName));
 
             if (getStaffByName == null)
                 return null;
@@ -114,7 +120,8 @@ namespace Api.Dev.Middleware.Application.Services
 
         public async Task<bool> UpdateStaffAsync(int id, StaffDto staffDto)
         {
-            var existingStaff = await _staffRepository.GetStaffByIdAsync(id);
+            //var existingStaff = await _staffRepository.GetStaffByIdAsync(id);
+            var existingStaff = await _staffRepository.GetByIdAsync(id);
 
             if (existingStaff == null)
                 return false;
@@ -126,7 +133,8 @@ namespace Api.Dev.Middleware.Application.Services
             existingStaff.DateOfJoining = staffDto.DateOfJoining;
 
 
-            var updateStaff = await _staffRepository.UpdateStaffAsync(existingStaff);
+            //var updateStaff = await _staffRepository.UpdateStaffAsync(existingStaff);
+            var updateStaff = await _staffRepository.UpdateAsync(existingStaff);
             
             if (updateStaff == null)
                     return false;

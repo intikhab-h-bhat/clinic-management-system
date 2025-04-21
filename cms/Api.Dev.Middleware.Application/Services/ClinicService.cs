@@ -12,9 +12,12 @@ namespace Api.Dev.Middleware.Application.Services
 {
     public class ClinicService : IClinicService
     {
-        private readonly IClinicRepository _clinicRepository;
+        // private readonly IClinicRepository _clinicRepository;
+        private readonly IRepository<Clinic> _clinicRepository;
 
-        public ClinicService(IClinicRepository clinicRepository)
+        public ClinicService(IRepository<Clinic> clinicRepository
+            //IClinicRepository clinicRepository
+            )
         {
             _clinicRepository = clinicRepository;
         }
@@ -30,7 +33,8 @@ namespace Api.Dev.Middleware.Application.Services
             addClinic.ContactNumber = clinicDto.ContactNumber;
             addClinic.Website = clinicDto.Website;
 
-            var clinicStatus = await _clinicRepository.AddClinicAsync(addClinic);
+            //var clinicStatus = await _clinicRepository.AddClinicAsync(addClinic);
+            var clinicStatus = await _clinicRepository.AddAsync(addClinic);
 
             var addClinicDto = new ClinicDto
             {
@@ -49,15 +53,20 @@ namespace Api.Dev.Middleware.Application.Services
         public async Task<bool> DeleteClinicAsync(int id)
         {
 
-            return await  _clinicRepository.DeleteClinicAsync(id);          
-
-           
+            // return await  _clinicRepository.DeleteClinicAsync(id);
+            var existingClinic = await _clinicRepository.GetByIdAsync(id);
+            if (existingClinic==null)
+                return false;
+              
+               await _clinicRepository.DeleteAsync(existingClinic);
+            return true;
         }
 
         public async Task<IEnumerable<ClinicDto>> GetAllClinicsAsync()
         {
 
-            var allClinics = await _clinicRepository.GeatAllClinicAsync();
+            //var allClinics = await _clinicRepository.GeatAllClinicAsync();
+            var allClinics = await _clinicRepository.GeatAllAsync();
             var allClinicsDto = allClinics.Select(c => new ClinicDto
             {
                 ClinicID = c.ClinicID,
@@ -74,7 +83,8 @@ namespace Api.Dev.Middleware.Application.Services
 
         public async Task<ClinicDto> GetClinicByIdAsync(int id)
         {
-            var getClinic = await _clinicRepository.GetClinicByIdAsync(id);
+            // var getClinic = await _clinicRepository.GetClinicByIdAsync(id);
+            var getClinic = await _clinicRepository.GetByIdAsync(id);
 
             if (getClinic == null)
                 return null;
@@ -94,7 +104,8 @@ namespace Api.Dev.Middleware.Application.Services
 
         public async Task<ClinicDto> GetClinicByNameAsync(string clinicName)
         {
-            var getClinicByName = await _clinicRepository.GetClinicByNameAsync(clinicName);
+            //var getClinicByName = await _clinicRepository.GetClinicByNameAsync(clinicName);
+            var getClinicByName = await _clinicRepository.GetByNameAsync(c => c.ClinicName.Contains(clinicName));
 
             if (getClinicByName == null)
                 return null;
@@ -116,7 +127,8 @@ namespace Api.Dev.Middleware.Application.Services
 
         public async Task<ClinicDto> UpdateClinicAsync(int id, ClinicDto clinicDto)
         {
-            var existingClinic = await _clinicRepository.GetClinicByIdAsync(id);
+            //var existingClinic = await _clinicRepository.GetClinicByIdAsync(id);
+            var existingClinic = await _clinicRepository.GetByIdAsync(id);
 
             if (existingClinic == null)
                 return null;
@@ -128,7 +140,8 @@ namespace Api.Dev.Middleware.Application.Services
             existingClinic.Website = clinicDto.Website;
 
 
-            var UpdateClinic = await _clinicRepository.UpdateClinicAsync(id, existingClinic);
+            //var UpdateClinic = await _clinicRepository.UpdateClinicAsync(id, existingClinic);
+            var UpdateClinic = await _clinicRepository.UpdateAsync(existingClinic);
 
             return clinicDto;
             
